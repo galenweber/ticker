@@ -143,7 +143,7 @@ var searchFRED = function(text) {
 
 var parseSearch = function(results) {
     // Oddly it appears the property name is 'seriess'
-    process.stdout.write(results);
+    //process.stdout.write(results);
     results = results.seriess.slice(0,3);
 
     // returns an array
