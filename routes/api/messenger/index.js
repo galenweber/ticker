@@ -12,6 +12,8 @@ var router = require('express').Router(),
     MESSENGER_TOKEN = keys.MESSENGER.token,
     svg2png = require("svg2png");
 
+console.log("the FRED API key is: ", FRED_API_KEY);
+
 // This is the confirmation webhook facebook uses
 router.get('/', function(req, res, next) {
     if (req.query['hub.verify_token'] === 'chirp') {
