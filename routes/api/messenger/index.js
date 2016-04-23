@@ -16,8 +16,9 @@ var router = require('express').Router(),
 router.get('/', function(req, res, next) {
     if (req.query['hub.verify_token'] === 'chirp') {
         res.status(200).send(req.query['hub.challenge']);
+    } else {
+        res.json('Error, wrong validation token');
     }
-    res.json('Error, wrong validation token');
 });
 
 // All messages are sent as post requests to this route
