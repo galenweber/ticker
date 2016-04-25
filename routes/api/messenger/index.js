@@ -368,8 +368,10 @@ var genChart = function(dataset, filename) {
             return svg2png(buf1, { width: 1910, height: 1000 });
         }).then(function (buffer) {
             console.log("writing file to server");
-            fs.writeFile(__dirname + '/images/' + filename + '.png', buffer);
-            resolve(filename);
+            fs.writeFile(__dirname + '/images/' + filename + '.png', buffer, function(err) {
+                if (err) throw err;
+                resolve(filename);
+            });
         }, function rejected(error) {
             console.log("error is: ", error);
             reject();
