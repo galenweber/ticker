@@ -76,7 +76,7 @@ function handleText(sender, text) {
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
-                if (!cleanResults) {
+                if (cleanResults) {
                     return sendSearchTemplates(cleanResults.results, sender);
                 } else {
                     return sendTextMessage(sender, "No series found. Please adjust your search parameters.")
