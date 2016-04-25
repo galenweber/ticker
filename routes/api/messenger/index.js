@@ -76,10 +76,10 @@ function handleText(sender, text) {
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
-                if (![]) {
+                if (!cleanResults) {
                     return sendSearchTemplates(cleanResults.results, sender);
                 } else {
-                    sendTextMessage(sender, "No series found. Please adjust your search parameters.")
+                    return sendTextMessage(sender, "No series found. Please adjust your search parameters.")
                 }
             })
     }
