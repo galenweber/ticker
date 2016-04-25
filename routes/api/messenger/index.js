@@ -12,8 +12,6 @@ var router = require('express').Router(),
     MESSENGER_TOKEN = keys.MESSENGER.token,
     svg2png = require("svg2png");
 
-console.log("the FRED API key is: ", FRED_API_KEY);
-
 // This is the confirmation webhook facebook uses
 router.get('/', function(req, res, next) {
     if (req.query['hub.verify_token'] === 'chirp') {
@@ -78,7 +76,11 @@ function handleText(sender, text) {
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
-                return sendSearchTemplates(cleanResults.results, sender);
+                if (![]) {
+                    return sendSearchTemplates(cleanResults.results, sender);
+                } else {
+                    sendTextMessage(sender, "No series found. Please adjust your search parameters.")
+                }
             })
     }
 }
@@ -146,8 +148,6 @@ var searchFRED = function(text) {
 
 var parseSearch = function(results) {
     // Oddly it appears the property name is 'seriess'
-    console.log("our results are: ", results);
-    console.log("did the message above show?");
     results = results.seriess.slice(0,3);
 
     // returns an array
@@ -158,8 +158,6 @@ var parseSearch = function(results) {
 var sendSearchTemplates = function (results, sender) {
 
     var elementsArray = [];
-
-    console.log("our results are: ", results);
 
     results.forEach(function (element) {
         elementsArray.push({
@@ -172,8 +170,6 @@ var sendSearchTemplates = function (results, sender) {
             }]
         })
     });
-
-    console.log("the elements array is: ", elementsArray);
 
     var messageData = {
         "attachment": {
