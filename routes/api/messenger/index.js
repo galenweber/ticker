@@ -76,6 +76,7 @@ function handleText(sender, text) {
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
+                console.log("clean results are: ", cleanResults);
                 if (cleanResults) {
                     return sendSearchTemplates(cleanResults.results, sender);
                 } else {
