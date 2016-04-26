@@ -76,8 +76,7 @@ function handleText(sender, text) {
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
-                console.log("clean results are: ", cleanResults);
-                if (cleanResults) {
+                if (cleanResults.results) {
                     return sendSearchTemplates(cleanResults.results, sender);
                 } else {
                     return sendTextMessage(sender, "No series found. Please adjust your search parameters.")
@@ -151,7 +150,7 @@ var parseSearch = function(results) {
     // Oddly it appears the property name is 'seriess'
     results = results.seriess.slice(0,3);
 
-    // returns an array
+    // returns an object with property results
     return {results};
 };
 
