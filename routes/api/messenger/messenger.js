@@ -210,7 +210,7 @@ var sendChart = function(sender) {
         recipient: JSON.stringify({id:sender}),
         message: JSON.stringify(messageData),
         // Pass data via Streams
-        filedata: fs.createReadStream(path.join(__dirname + '../../../../images/' + sender + '.png'))
+        filedata: fs.createReadStream(path.resolve(__dirname + '../../../../images/' + sender + '.png'))
     };
 
 

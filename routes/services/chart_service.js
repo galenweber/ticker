@@ -170,7 +170,7 @@ var genChart = function(dataset, filename) {
             return svg2png(buf1, { width: 1910, height: 1000 });
         }).then(function (buffer) {
             console.log("creating write stream: ", path.join(__dirname + '../../../images/' + filename + '.png'));
-            fs.writeFile(path.join(__dirname + '../../../images/' + filename + '.png'), buffer, function(err) {
+            fs.writeFile(path.resolve(__dirname + '../../../images/' + filename + '.png'), buffer, function(err) {
                 if (err) throw err;
                 resolve(filename);
             });
