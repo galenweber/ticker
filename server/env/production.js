@@ -15,5 +15,8 @@ module.exports = {
     },
     "MESSENGER": {
         token: process.env.MESSENGER_TOKEN
+    },
+    "TELEGRAM": {
+        token: process.env.TELEGRAM_TOKEN
     }
 };
