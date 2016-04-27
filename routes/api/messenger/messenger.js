@@ -203,7 +203,7 @@ var sendChart = function(sender) {
         }
     };
 
-    console.log("creating read stream: ", path.join(__dirname + '../../../../images/' + sender + '.png'));
+    console.log("creating read stream: ", path.resolve(__dirname + '../../../../images/' + sender + '.png'));
 
 
     var formData = {
