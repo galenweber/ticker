@@ -7,10 +7,11 @@ var router = require('express').Router(),
     fs = require('fs'),
     jsdom = require("jsdom").jsdom,
     d3 = require("d3"),
-    FRED_API_KEY = keys.FRED.apiKey,
-    Fred = require('../FRED/index.js')(FRED_API_KEY),
+    FredService = require('../../services/fred_service.js'),
+    ChartService = require('../../services/chart_service.js'),
     MESSENGER_TOKEN = keys.MESSENGER.token,
-    svg2png = require("svg2png");
+    svg2png = require("svg2png"),
+    path = require('path');
 
 // This is the confirmation webhook facebook uses
 router.get('/', function(req, res, next) {
@@ -56,12 +57,12 @@ function handleText(sender, text) {
 
     if (command.ticker) {
 
-        return getDataAndInfo(command.ticker)
+        return FredService.getSeriesAndInfo(command.ticker)
             .then(function fulfilled(data) {
                 return parseData(data);
             })
             .then(function fulfilled(cleanData) {
-                return genChart(cleanData, sender);
+                return ChartService.genChart(cleanData, sender);
             })
             .then(function fulfilled(filename) {
                 return sendChart(filename);
@@ -69,10 +70,10 @@ function handleText(sender, text) {
 
     } else if (command.search) {
 
-        return searchFRED(command.search)
+        return FredService.search(command.search)
             .then(function fulfilled(results) {
                 // results is an object as returned from our FRED module
-                return parseSearch(results);
+                return FredService.cullSearch(results);
             })
             .then(function fulfilled(cleanResults) {
                 // cleanResults is an object {results} with top three
@@ -99,20 +100,6 @@ function parseCommand(text) {
     }
 }
 
-var getDataAndInfo = function(ticker) {
-    var observationsObj = {
-        method: 'series-observations',
-        series: ticker
-    };
-
-    var infoObj = {
-        method: 'series',
-        series: ticker
-    };
-
-    return Promise.all([Fred(observationsObj), Fred(infoObj)])
-};
-
 var parseData = function(values) {
     var data = values[0];
     var seriesInfo = values[1];
@@ -136,23 +123,7 @@ var parseData = function(values) {
     return {data, xLabel, yLabel, name, lastUpdated};
 };
 
-var searchFRED = function(text) {
 
-    var searchOptions = {
-        method: 'series-search',
-        text: text
-    };
-
-    return Fred(searchOptions)
-};
-
-var parseSearch = function(results) {
-    // Oddly it appears the property name is 'seriess'
-    results = results.seriess.slice(0,3);
-
-    // returns an object with property results
-    return {results};
-};
 
 
 var sendSearchTemplates = function (results, sender) {
@@ -417,7 +388,7 @@ var sendChart = function(sender) {
         recipient: JSON.stringify({id:sender}),
         message: JSON.stringify(messageData),
         // Pass data via Streams
-        filedata: fs.createReadStream(__dirname + '/images/' + sender + '.png')
+        filedata: fs.createReadStream(path.join(__dirname + '../../../images/' + sender + '.png'))
     };
 
 
