@@ -203,6 +203,8 @@ var sendChart = function(sender) {
         }
     };
 
+    console.log("creating read stream: ", path.join(__dirname + '../../../../images/' + sender + '.png'));
+
 
     var formData = {
         recipient: JSON.stringify({id:sender}),
