@@ -203,14 +203,11 @@ var sendChart = function(sender) {
         }
     };
 
-    console.log('dirname is registered as: ', __dirname);
-    console.log("creating read stream: ", path.resolve(__dirname + '../../../../images/' + sender + '.png'));
-
     var formData = {
         recipient: JSON.stringify({id:sender}),
         message: JSON.stringify(messageData),
         // Pass data via Streams
-        filedata: fs.createReadStream(path.resolve(__dirname + '../../../../images/' + sender + '.png'))
+        filedata: fs.createReadStream(path.resolve(__dirname + '/../../../images/' + sender + '.png'))
     };
 
 
