@@ -169,8 +169,6 @@ var genChart = function(dataset, filename) {
             console.log("converting to png");
             return svg2png(buf1, { width: 1910, height: 1000 });
         }).then(function (buffer) {
-            console.log('dirname up one is registered as: ', path.resolve(__dirname + '/../../images/' + filename + '.png'));
-            console.log("creating write stream: ", path.resolve(__dirname + '/../../images/' + filename + '.png'));
             fs.writeFile(path.resolve(__dirname + '/../../images/' + filename + '.png'), buffer, function(err) {
                 if (err) throw err;
                 resolve(filename);

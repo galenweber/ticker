@@ -13,6 +13,8 @@ var router = require('express').Router(),
     svg2png = require("svg2png"),
     path = require('path');
 
+console.log("dirname is: ", path.join(__dirname,'../'));
+
 // This is the confirmation webhook facebook uses
 router.get('/', function(req, res, next) {
     if (req.query['hub.verify_token'] === 'chirp') {
